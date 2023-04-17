@@ -6,9 +6,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        Dados do Tipo
-                        <a href="{{ url('tipo') }}" class="btn btn-success btn-sm float-end">
-                            Listar Tipos
+                        Dados do Cliente
+                        <a href="{{ url('cliente') }}" class="btn btn-success btn-sm float-end">
+                            Listar Clientes
                         </a>
                     </div>
                     <div class="card-body">
@@ -23,28 +23,37 @@
                             </div>
                         @endif
 
-                        @if(Route::is('tipo.show'))
-                            {!! Form::model($tipo,
+                        @if(Route::is('cliente.show'))
+                            {!! Form::model($cliente,
                                             ['method'=>'PATCH',
-                                            'url'=>'tipo/'.$tipo->id]) !!}
+                                            'url'=>'cliente/'.$cliente->id]) !!}
                         @else
-                            {!! Form::open(['method'=>'POST', 'url'=>'tipo']) !!}
+                            {!! Form::open(['method'=>'POST', 'url'=>'cliente']) !!}
                         @endif
-                        {!! Form::label('titulo', 'Título') !!}
-                        {!! Form::input('text', 'titulo',
+                        {!! Form::label('nome', 'Nome') !!}
+                        {!! Form::input('text', 'nome',
                                         null,
                                         ['class'=>'form-control',
-                                         'placeholder'=>'Título',
+                                         'placeholder'=>'Nome',
                                          'required',
                                          'maxlength'=>50,
                                          'autofocus']) !!}
-                        {!! Form::label('icone', 'Icone (URL)') !!}
-                        {!! Form::input('text', 'icone',
+                        {!! Form::label('endereco', 'Endereço') !!}
+                        {!! Form::input('text', 'endereco',
                                         null,
                                         ['class'=>'form-control',
-                                        'placeholder'=>'Icone',
+                                        'placeholder'=>'Endereço',
                                         'required',
                                         'maxlength'=>150]) !!}
+
+                        {!! Form::label('fone', 'Fone') !!}
+                        {!! Form::input('text', 'fone',
+                                        null,
+                                        ['class'=>'form-control',
+                                        'placeholder'=>'Fone',
+                                        'required',
+                                        'maxlength'=>12]) !!}
+
                         {!! Form::submit('Salvar',
                                         ['class'=>'float-end btn btn-primary mt-3']) !!}
                         {!! Form::close() !!}

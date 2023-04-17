@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class='container'>
-        <div class="row justify-contant-center">
+    <div class="container">
+        <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -10,19 +10,18 @@
                         <a href="{{ url('local/create') }}" class="btn btn-success btn-sm float-end">
                             Novo Local
                         </a>
-
                     </div>
                     <div class="card-body">
                         @if(Session::has('mensagem_sucesso'))
-                            <div class="alert alert-sucess">
-                            {{  Session::get('mensagem_sucesso') }}
+                            <div class="alert alert-success">
+                                {{ Session::get('mensagem_sucesso') }}
                             </div>
-                            @endif
+                        @endif
                         <table class="table table-sm table-hover table-bordered">
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>nome</th>
+                                    <th>Nome</th>
                                     <th>Opções</th>
                                 </tr>
                             </thead>
@@ -35,17 +34,10 @@
                                             <a href="{{ url('local/' . $local->id) }}" class="btn btn-primary btn-sm">
                                                 Editar
                                             </a>
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'url' => 'local/' . $local->id,
-                                                'style' => 'display:inline',
-                                            ]) !!}
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                Excluir
-                                            </button>
+                                            {!! Form::open(['method' => 'DELETE', 'url' => 'local/' . $local->id, 'style' => 'display:inline']) !!}
+                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                                             {!! Form::close() !!}
                                         </td>
-
                                     </tr>
                                 @empty
                                     <tr>

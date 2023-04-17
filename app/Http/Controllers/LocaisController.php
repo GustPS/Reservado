@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\local;
-use Illuminate\Pagination\Paginator;
+use App\Models\Local;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
-use PhpParser\Node\Stmt\Return_;
 
 class LocaisController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     /**
      * Display a listing of the resource.
@@ -17,8 +21,8 @@ class LocaisController extends Controller
     public function index()
     {
         $locais = Local::paginate(25);
-
-        Return view('local.lista', compact('locais'));
+        Paginator::useBootstrap();
+        return view('local.lista', compact('locais'));
     }
 
     /**
@@ -26,7 +30,7 @@ class LocaisController extends Controller
      */
     public function create()
     {
-          return view('local.formulario');
+        return view('local.formulario');
     }
 
     /**
@@ -34,14 +38,15 @@ class LocaisController extends Controller
      */
     public function store(Request $request)
     {
-        $local = new Local;
+        $local = new Local();
         $local->fill($request->all());
         if ($local->save()){
-            $request->session()->flash('mensagem_sucesso', "Local salvo!");
-        } else{
-            $request->session()->flash('mensagem_erro', 'Deu erro');
+            $request->session()->flash('mensagem_sucesso', 'Local Salvo');
+        } else {
+            $request-> session()->flash('mensagem_erro', 'Deu Erro');
         }
-        return Redirect::to('local');
+
+        return Redirect::to('local/create');
     }
 
     /**
@@ -49,7 +54,8 @@ class LocaisController extends Controller
      */
     public function show(Local $local)
     {
-       return view('local.formulario', compact('local'));
+        $local = Local::findOrFail($local->id);
+        return view('local.formulario', compact('local'));
     }
 
     /**
@@ -57,7 +63,7 @@ class LocaisController extends Controller
      */
     public function edit(Local $local)
     {
-       return view('local.formulario', compact('local'));
+        //
     }
 
     /**
@@ -65,27 +71,25 @@ class LocaisController extends Controller
      */
     public function update(Request $request, Local $local)
     {
-        $local = Local::findOrFaill($local->id);
+        $local = Local::findOrFail($local->id);
         $local->fill($request->all());
         if ($local->save()){
-            $request->session()->flash('mensagem_sucesso', 'Local alterado');
+            $request->session()->flash('mensagem_sucesso', 'Local Alterado');
         } else {
-            $request->session()->flash('mensagem_erro', 'Deu Erro');
+            $request-> session()->flash('mensagem_erro', 'Deu Erro');
         }
+
+        return Redirect::to('local/' . $local->id);
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,local $local)
+    public function destroy(Local $local)
     {
+        $local = Local::findOrFail($local->id);
         $local->delete();
-        // $request->session()->flash('Mensagem_sucesso',
-        //     'Local removido com sucesso');
-        //     return Redirect::to('local');
-
-            return Redirect::to('local')->with('Mensagem_sucesso',
-            'Local removido com sucesso');
-    }
+        return Redirect::to('local');
+     }
 }

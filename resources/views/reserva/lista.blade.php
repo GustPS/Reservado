@@ -6,9 +6,9 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        Lista de Tipos
-                        <a href="{{ url('tipo/create') }}" class="btn btn-success btn-sm float-end">
-                            Novo Tipo
+                        Lista de Reservas
+                        <a href="{{ url('reserva/create') }}" class="btn btn-success btn-sm float-end">
+                            Nova Reserva
                         </a>
                     </div>
                     <div class="card-body">
@@ -21,20 +21,30 @@
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Titulo</th>
+                                    <th>Equipamento</th>
+                                    <th>Local</th>
+                                    <th>Cliente</th>
+                                    <th>Data</th>
+                                    <th>Horario</th>
+                                    <th>Data de Devolução</th>
                                     <th>Opções</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($tipos as $tipo)
+                                @forelse ($reservas as $reserva)
                                     <tr>
-                                        <td>{{ $tipo->id }}</td>
-                                        <td>{{ $tipo->titulo }}</td>
+                                        <td>{{ $reserva->id }}</td>
+                                        <td>{{ $reserva->equipamento->nome }}</td>
+                                        <td>{{ $reserva->local->nome }}</td>
+                                        <td>{{ $reserva->cliente->nome }}</td>
+                                        <td>{{ $reserva->data }}</td>
+                                        <td>{{ $reserva->horario }}</td>
+                                        <td>{{ $reserva->devolucao }}</td>
                                         <td>
-                                            <a href="{{ url('tipo/' . $tipo->id) }}" class="btn btn-primary btn-sm">
+                                            <a href="{{ url('reserva/' . $reserva->id) }}" class="btn btn-primary btn-sm">
                                                 Editar
                                             </a>
-                                            {!! Form::open(['method' => 'DELETE', 'url' => 'tipo/' . $tipo->id, 'style' => 'display:inline']) !!}
+                                            {!! Form::open(['method' => 'DELETE', 'url' => 'reserva/' . $reserva->id, 'style' => 'display:inline']) !!}
                                             <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                                             {!! Form::close() !!}
                                         </td>
@@ -49,7 +59,7 @@
                             </tbody>
                         </table>
                         <div class="pagination justify-content-center">
-                            {{ $tipos->links() }}
+                            {{ $reservas->links() }}
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class='container'>
-        <div class="row justify-contant-center">
+    <div class="container">
+        <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
@@ -10,14 +10,13 @@
                         <a href="{{ url('equipamento/create') }}" class="btn btn-success btn-sm float-end">
                             Novo Equipamento
                         </a>
-
                     </div>
                     <div class="card-body">
                         @if(Session::has('mensagem_sucesso'))
-                            <div class="alert alert-sucess">
-                            {{  Session::get('mensagem_sucesso') }}
+                            <div class="alert alert-success">
+                                {{ Session::get('mensagem_sucesso') }}
                             </div>
-                            @endif
+                        @endif
                         <table class="table table-sm table-hover table-bordered">
                             <thead>
                                 <tr>
@@ -32,24 +31,17 @@
                                 @forelse ($equipamentos as $equipamento)
                                     <tr>
                                         <td>{{ $equipamento->id }}</td>
-                                        <td>{{ $equipamento->nome}}</td>
+                                        <td>{{ $equipamento->nome }}</td>
                                         <td>{{ $equipamento->tipo->titulo }}</td>
                                         <td>{{ $equipamento->data_aquisicao }}</td>
                                         <td>
                                             <a href="{{ url('equipamento/' . $equipamento->id) }}" class="btn btn-primary btn-sm">
                                                 Editar
                                             </a>
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'url' => 'equipamento/' . $equipamento->id,
-                                                'style' => 'display:inline',
-                                            ]) !!}
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                Excluir
-                                            </button>
+                                            {!! Form::open(['method' => 'DELETE', 'url' => 'equipamento/' . $equipamento->id, 'style' => 'display:inline']) !!}
+                                            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                                             {!! Form::close() !!}
                                         </td>
-
                                     </tr>
                                 @empty
                                     <tr>

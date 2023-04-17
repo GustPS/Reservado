@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Equipamento extends Model
 {
     use HasFactory;
-
     protected $fillable = ['tipo_id', 'nome', 'data_aquisicao'];
 
     public function tipo(){

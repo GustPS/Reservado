@@ -5,16 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\Equipamento;
 use App\Models\Tipo;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
 
 class EquipamentosController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $equipamentos = Equipamento::with('tipo')->paginate(25);
+        Paginator::useBootstrap();
         return view('equipamento.lista', compact('equipamentos'));
     }
 
@@ -32,17 +40,18 @@ class EquipamentosController extends Controller
      */
     public function store(Request $request)
     {
-        $equipamento = new Equipamento;
+        $equipamento = new Equipamento();
         $equipamento->fill($request->all());
-        if ($equipamento->save()) {
+        if ($equipamento->save()){
             $tipo = 'mensagem_sucesso';
-            $msg = 'Equipamento salvo';
+            $msg = 'Equipamento Salvo!';
+
         } else {
-            $tipo = 'mensagem_erro';
-            $msg = 'Deu erro';
+            $tipo = 'mensagem_sucesso';
+            $msg = 'Deu erro!';
         }
-        return Redirect::to('equipamento/create')
-            ->With($tipo, $msg);
+
+        return Redirect::to('equipamento/create')->with($tipo, $msg);
     }
 
     /**
@@ -50,10 +59,10 @@ class EquipamentosController extends Controller
      */
     public function show(Equipamento $equipamento)
     {
-
         $equipamento = Equipamento::findOrFail($equipamento->id);
         $tipos = Tipo::select('titulo', 'id')->pluck('titulo', 'id');
-        return view('equipamento.formulario', compact('tipos', 'equipamento'));
+        return view('equipamento.formulario',
+            compact('tipos', 'equipamento'));
     }
 
     /**
@@ -61,7 +70,7 @@ class EquipamentosController extends Controller
      */
     public function edit(Equipamento $equipamento)
     {
-        return view('equipamento.formulario', compact('equipamento'));
+        //
     }
 
     /**
@@ -71,15 +80,17 @@ class EquipamentosController extends Controller
     {
         $equipamento = Equipamento::findOrFail($equipamento->id);
         $equipamento->fill($request->all());
-        if ($equipamento->save()) {
+        if ($equipamento->save()){
             $tipo = 'mensagem_sucesso';
-            $msg = 'Equipamento  alterado';
+            $msg = 'Equipamento Salvo!';
+
         } else {
-            $tipo = 'mensagem_erro';
-            $msg = 'Deu erro';
+            $tipo = 'mensagem_sucesso';
+            $msg = 'Deu erro!';
         }
-        return Redirect::to('equipamento/' . $equipamento->id)
-            ->With($tipo, $msg);
+
+        return Redirect::to('equipamento/'.$equipamento->id)
+            ->with($tipo, $msg);
     }
 
     /**
@@ -88,15 +99,16 @@ class EquipamentosController extends Controller
     public function destroy(Equipamento $equipamento)
     {
         $equipamento = Equipamento::findOrFail($equipamento->id);
-        if ($equipamento->delete()) {
+        if ($equipamento->delete()){
             $tipo = 'mensagem_sucesso';
-            $msg = 'Equipamento  deletado';
+            $msg = 'Equipamento Removido!';
+
         } else {
-            $tipo = 'mensagem_erro';
-            $msg = 'Deu erro';
+            $tipo = 'mensagem_sucesso';
+            $msg = 'Deu erro!';
         }
+
         return Redirect::to('equipamento')
-            ->With($tipo, $msg);
+                ->with($tipo, $msg);
     }
-    /*teste git */
 }
