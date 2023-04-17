@@ -98,4 +98,5 @@ class EquipamentosController extends Controller
         return Redirect::to('equipamento')
             ->With($tipo, $msg);
     }
+    /*teste git */
 }
